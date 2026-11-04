@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#ef6c9e">
+    <meta name="description" content="A tiny dreamy Valentine adventure made with a whole lot of love.">
+    <title>Our Little Valentine Adventure</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="game" id="game">
+        <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+        <div class="ambient-scene" aria-hidden="true">
+            <div class="sky-glow sky-glow-one"></div>
+            <div class="sky-glow sky-glow-two"></div>
+             
+           <audio id="bgMusic" loop>
+                <source src="song.mp3" type="audio/mpeg">
+           </audio>
+            <div class="star-field parallax-layer" data-depth="0.08">
+                <i style="--x:8%;--y:17%;--d:.2s">✦</i>
+                <i style="--x:19%;--y:33%;--d:1.2s">✧</i>
+                <i style="--x:34%;--y:12%;--d:.7s">✦</i>
+                <i style="--x:54%;--y:24%;--d:1.8s">✧</i>
+                <i style="--x:69%;--y:10%;--d:.4s">✦</i>
+                <i style="--x:84%;--y:27%;--d:1.5s">✧</i>
+                <i style="--x:93%;--y:12%;--d:2.1s">✦</i>
+            </div>
+
+            <div class="cloud-layer cloud-layer-far parallax-layer" data-depth="0.12">
+                <div class="cloud cloud-a"><span></span></div>
+                <div class="cloud cloud-b"><span></span></div>
+            </div>
+            <div class="cloud-layer cloud-layer-near parallax-layer" data-depth="0.2">
+                <div class="cloud cloud-c"><span></span></div>
+                <div class="cloud cloud-d"><span></span></div>
+            </div>
+
+            <div class="butterflies parallax-layer" data-depth="0.35">
+                <i class="butterfly butterfly-one">♥</i>
+                <i class="butterfly butterfly-two">♥</i>
+                <i class="butterfly butterfly-three">♥</i>
+            </div>
+
+            <div class="mountain-layer mountain-layer-far parallax-layer" data-depth="0.07">
+                <i></i><i></i><i></i><i></i>
+            </div>
+            <div class="mountain-layer mountain-layer-near parallax-layer" data-depth="0.14">
+                <i></i><i></i><i></i>
+            </div>
+            <div class="haze"></div>
+            <div class="meadow meadow-back parallax-layer" data-depth="0.18"></div>
+            <div class="meadow meadow-front parallax-layer" data-depth="0.28">
+                <div class="flower-row flower-row-one">✿　❀　✿　❀　✿　❀　✿</div>
+                <div class="flower-row flower-row-two">❀　✿　❀　✿　❀　✿　❀</div>
+            </div>
+        </div>
+
+        <button class="sound-toggle glass-control" id="soundToggle" type="button"
+    aria-label="Turn romantic sounds off" aria-pressed="true">
+    <span class="sound-icon" aria-hidden="true">🔊</span>
+    <span class="sound-label">SOUND ON</span>
+</button>
+
+        <div class="progress-dots" id="progressDots" aria-label="Adventure progress">
+            <span class="is-current"></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <section class="screen screen-proposal is-active" id="screen1" data-screen="1" aria-labelledby="proposalTitle">
+            <div class="screen-shell proposal-shell">
+                <div class="character-stage parallax-layer intro-card" data-depth="0.3">
+                    <div class="character-card" id="mainCharacterCard">
+                        <div class="card-shine"></div>
+                        <span class="card-heart card-heart-left">♥</span>
+                        <span class="card-heart card-heart-right">♥</span>
+                        <svg class="cat-svg" viewBox="0 0 240 220" role="img" aria-label="A cute fluffy kitten holding a heart">
+    <defs>
+        <linearGradient id="catFur" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff"/>
+            <stop offset="0.55" stop-color="#fff5fa"/>
+            <stop offset="1" stop-color="#ffdce9"/>
+        </linearGradient>
+
+        <linearGradient id="heartGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ff8fb3"/>
+            <stop offset="1" stop-color="#f03f78"/>
+        </linearGradient>
+
+        <filter id="catShadow" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="0" dy="6" stdDeviation="5"
+                flood-color="#9d4168" flood-opacity=".2"/>
+        </filter>
+    </defs>
+
+    <g filter="url(#catShadow)">
+
+        <!-- fluffy tail -->
+        <path
+            d="M181 153
+               C222 132 225 177 194 181
+               C213 166 199 151 185 164"
+            fill="none"
+            stroke="#fff1f6"
+            stroke-width="17"
+            stroke-linecap="round"
+        />
+
+        <!-- kitten head -->
+        <path
+            d="M58 76
+               L48 31
+               L88 55
+               C108 46 132 46 152 55
+               L192 31
+               L182 78
+               C193 94 196 119 188 142
+               C178 172 153 188 120 188
+               C87 188 62 172 52 142
+               C44 119 47 94 58 76Z"
+            fill="url(#catFur)"
+            stroke="#704257"
+            stroke-width="5"
+            stroke-linejoin="round"
+        />
+
+        <!-- inner ears -->
+        <path d="M57 48 L78 62 L64 70Z"
+              fill="#ffb6cc"/>
+        <path d="M183 48 L162 62 L176 70Z"
+              fill="#ffb6cc"/>
+
+        <!-- forehead fluff -->
+        <path
+            d="M105 58
+               Q120 48 135 58
+               L130 69
+               L120 62
+               L110 69Z"
+            fill="#fff"
+            opacity=".9"
+        />
+
+        <!-- big sparkling eyes -->
+        <ellipse cx="88" cy="108" rx="12" ry="15" fill="#493344"/>
+        <ellipse cx="152" cy="108" rx="12" ry="15" fill="#493344"/>
+
+        <ellipse cx="84" cy="103" rx="4" ry="5" fill="#fff"/>
+        <circle cx="93" cy="114" r="2.5" fill="#fff"/>
+        <ellipse cx="148" cy="103" rx="4" ry="5" fill="#fff"/>
+        <circle cx="157" cy="114" r="2.5" fill="#fff"/>
+
+        <!-- cute blush -->
+        <ellipse cx="70" cy="135" rx="17" ry="8"
+                 fill="#ff91b5" opacity=".42"/>
+        <ellipse cx="170" cy="135" rx="17" ry="8"
+                 fill="#ff91b5" opacity=".42"/>
+
+        <!-- tiny nose -->
+        <path
+            d="M115 124 Q120 120 125 124 Q120 130 115 124Z"
+            fill="#f184a5"
+        />
+
+        <!-- smiling mouth -->
+        <path
+            d="M120 129
+               Q113 139 106 132
+               M120 129
+               Q127 139 134 132"
+            fill="none"
+            stroke="#603447"
+            stroke-width="3.5"
+            stroke-linecap="round"
+        />
+
+        <!-- whiskers -->
+        <path d="M75 128 L45 123" stroke="#b97891"
+              stroke-width="2" stroke-linecap="round"/>
+        <path d="M75 136 L43 139" stroke="#b97891"
+              stroke-width="2" stroke-linecap="round"/>
+        <path d="M165 128 L195 123" stroke="#b97891"
+              stroke-width="2" stroke-linecap="round"/>
+        <path d="M165 136 L197 139" stroke="#b97891"
+              stroke-width="2" stroke-linecap="round"/>
+
+        <!-- tiny paws -->
+        <ellipse cx="91" cy="171" rx="17" ry="11"
+                 fill="#fff8fb" stroke="#704257" stroke-width="4"/>
+        <ellipse cx="149" cy="171" rx="17" ry="11"
+                 fill="#fff8fb" stroke="#704257" stroke-width="4"/>
+
+        <!-- paw beans -->
+        <circle cx="86" cy="170" r="2.5" fill="#ffabc4"/>
+        <circle cx="96" cy="168" r="2.5" fill="#ffabc4"/>
+        <circle cx="144" cy="168" r="2.5" fill="#ffabc4"/>
+        <circle cx="154" cy="170" r="2.5" fill="#ffabc4"/>
+    </g>
+
+    <!-- heart held by kitten -->
+    <g class="held-heart">
+        <path
+            d="M120 207
+               C108 191 82 181 88 162
+               C93 147 111 149 120 163
+               C129 149 147 147 152 162
+               C158 181 132 191 120 207Z"
+            fill="url(#heartGradient)"
+            stroke="#fff"
+            stroke-width="4"
+            stroke-linejoin="round"
+        />
+
+        <!-- heart shine -->
+        <path
+            d="M104 163 Q110 157 115 164"
+            fill="none"
+            stroke="#fff"
+            stroke-width="4"
+            stroke-linecap="round"
+            opacity=".85"
+        />
+    </g>
+
+    <!-- floating sparkles -->
+    <g fill="#ff91b5">
+        <path d="M32 83 l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"/>
+        <path d="M205 92 l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z"/>
+        <path d="M forty 170" />
+    </g>
+</svg>
+                        <div class="card-caption">A TINY QUESTION FOR YOU</div>
+                    </div>
+                    <div class="card-shadow"></div>
+                </div>
+
+                <div class="proposal-copy">
+                    <p class="eyebrow intro-copy">OUR LITTLE ADVENTURE</p>
+                    <h1 id="proposalTitle" class="proposal-title" aria-label="Will you go out with me?">
+                        <span class="intro-word">WILL</span>
+                        <span class="intro-word">YOU</span>
+                        <span class="intro-word">GO</span>
+                        <br>
+                        <span class="intro-word">OUT</span>
+                        <span class="intro-word">WITH</span>
+                        <span class="intro-word">ME?</span>
+                    </h1>
+                    <p class="proposal-subtitle intro-copy">I have a very cute plan and it needs my favorite person.</p>
+                </div>
+
+                <div class="proposal-actions intro-actions">
+                    <button id="yesBtn" class="btn btn-primary yes-btn magnetic" type="button">
+                        <span>YES, OBVIOUSLY</span>
+                        <b aria-hidden="true">♥</b>
+                    </button>
+                </div>
+
+                <p id="pleaseText" class="please-text" aria-live="polite">Babe please :</p>
+            </div>
+
+            <div class="no-escape-zone" id="noEscapeZone">
+                <button id="noBtn" class="btn no-btn" type="button" aria-label="No, but this button playfully runs away">
+                    <span>NO</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="screen screen-date" id="screen2" data-screen="2" aria-labelledby="dateTitle" aria-hidden="true">
+            <div class="screen-shell narrow-shell">
+                <div class="mini-character happy" aria-hidden="true"><span>꒰ᐢ. .ᐢ꒱₊˚⊹ ♡</span><i>♥</i></div>
+                <p class="eyebrow">STEP 01 · THE WHEN</p>
+                <h2 id="dateTitle">PICK A DATE</h2>
+                <p class="screen-subtitle">Choose the day for our cute little plan.</p>
+
+                <div class="date-picker-card tilt-card" id="datePickerCard">
+                    <div class="calendar-art" aria-hidden="true">
+                        <span class="calendar-rings"></span>
+                        <b id="calendarDay">♥</b>
+                        <small id="calendarMonth">OUR DAY</small>
+                    </div>
+                    <label for="dateInput">WHEN SHOULD WE MAKE A MEMORY?</label>
+                    <div class="date-input-wrap">
+                        <input type="date" id="dateInput" required>
+                        <span class="date-check" aria-hidden="true">✓</span>
+                    </div>
+                    <p id="dateHint">Only future adventures are allowed ✨</p>
+                </div>
+
+                <button id="dateContinue" class="btn btn-secondary continue-btn" type="button" disabled>
+                    <span>CHOOSE OUR PLAN</span><b aria-hidden="true">→</b>
+                </button>
+            </div>
+        </section>
+
+        <section class="screen screen-activities" id="screen3" data-screen="3" aria-labelledby="activityTitle" aria-hidden="true">
+            <div class="screen-shell wide-shell">
+                <p class="eyebrow">STEP 02 · THE FUN PART</p>
+                <h2 id="activityTitle">CHOOSE OUR DATE</h2>
+                <p class="screen-subtitle">Pick the adventure that feels most like us.</p>
+
+                <div class="activity-grid" id="activityGrid">
+                    <button class="activity-card tilt-card" type="button" data-activity="Dinner Date">
+                        <span class="activity-check">♥</span>
+                        <span class="activity-icon" aria-hidden="true">🍽️</span>
+                        <strong>DINNER DATE</strong>
+                        <small>Candles, good food & us</small>
+                    </button>
+                    <button class="activity-card tilt-card" type="button" data-activity="Movie Night">
+                        <span class="activity-check">♥</span>
+                        <span class="activity-icon" aria-hidden="true">🍿</span>
+                        <strong>MOVIE NIGHT</strong>
+                        <small>Cozy seats & shared snacks</small>
+                    </button>
+                    <button class="activity-card tilt-card" type="button" data-activity="Coffee & Walk">
+                        <span class="activity-check">♥</span>
+                        <span class="activity-icon" aria-hidden="true">☕</span>
+                        <strong>COFFEE & WALK</strong>
+                        <small>Warm cups, long talks</small>
+                    </button>
+                    <button class="activity-card tilt-card" type="button" data-activity="Picnic">
+                        <span class="activity-check">♥</span>
+                        <span class="activity-icon" aria-hidden="true">🧺</span>
+                        <strong>PICNIC</strong>
+                        <small>Blanket, berries & sunshine</small>
+                    </button>
+                    <button class="activity-card tilt-card" type="button" data-activity="Mini Golf">
+                        <span class="activity-check">♥</span>
+                        <span class="activity-icon" aria-hidden="true">⛳</span>
+                        <strong>MINI GOLF</strong>
+                        <small>Cute rivalry encouraged</small>
+                    </button>
+                    <button class="activity-card tilt-card" type="button" data-activity="Surprise Me">
+                        <span class="activity-check">♥</span>
+                        <span class="activity-icon" aria-hidden="true">🎁</span>
+                        <strong>SURPRISE ME</strong>
+                        <small>Trust the romance department</small>
+                    </button>
+                </div>
+
+                <button id="lockBtn" class="btn btn-primary lock-btn" type="button" disabled>
+                    <span>LOCK IT IN</span>
+                    <b class="lock-icon" aria-hidden="true"><i></i>🔒</b>
+                </button>
+            </div>
+        </section>
+
+        <section class="screen screen-confirmation" id="screen4" data-screen="4" aria-labelledby="confirmationTitle" aria-hidden="true">
+            <div class="screen-shell confirmation-shell">
+                <div class="celebration-heart" aria-hidden="true"><span>♥</span><i></i><i></i><i></i></div>
+                <p class="eyebrow">OFFICIALLY OURS</p>
+                <h2 id="confirmationTitle" class="yay-title">IT'S A DATE! <span>♥</span></h2>
+                <p class="screen-subtitle">Our cute little adventure is officially planned.</p>
+
+                <div class="date-ticket tilt-card">
+                    <div class="ticket-top">
+                        <span>ADMIT TWO</span>
+                        <b>♥</b>
+                    </div>
+                    <div class="ticket-line">
+                        <span aria-hidden="true">📅</span>
+                        <div><small>OUR DAY</small><strong id="finalDate">A lovely day</strong></div>
+                    </div>
+                    <div class="ticket-line">
+                        <span aria-hidden="true">💕</span>
+                        <div><small>OUR PLAN</small><strong id="finalPlan">A lovely plan</strong></div>
+                    </div>
+                    <p>VALID FOR: one unforgettable memory</p>
+                </div>
+
+                <button id="toMessageBtn" class="btn btn-secondary continue-btn" type="button">
+                    <span>ONE MORE THING</span><b aria-hidden="true">→</b>
+                </button>
+            </div>
+        </section>
+
+        <section class="screen screen-message" id="screen5" data-screen="5" aria-labelledby="messageTitle" aria-hidden="true">
+            <div class="screen-shell message-shell">
+                <div class="moon-heart" aria-hidden="true">♥</div>
+                <p class="eyebrow">A LITTLE SOMETHING FOR YOU</p>
+                <h2 id="messageTitle">YOU'VE GOT LOVE MAIL</h2>
+                <p class="screen-subtitle">Go on… I promise it's a good one.</p>
+
+                <button id="messageBtn" class="message-notification tilt-card" type="button">
+                    <span class="notification-icon" aria-hidden="true">♥</span>
+                    <span class="notification-copy"><small>JUST NOW</small><strong>1 NEW MESSAGE</strong><em>from: your favorite person</em></span>
+                    <span class="notification-arrow" aria-hidden="true">→</span>
+                </button>
+
+                <div class="orbiting-hearts" aria-hidden="true"><i>♥</i><i>♥</i><i>♥</i><i>♥</i></div>
+            </div>
+        </section>
+
+        <div id="letterModal" class="letter-modal" role="dialog" aria-modal="true" aria-labelledby="letterTitle" aria-hidden="true">
+            <div class="letter-window" role="document">
+                <div class="window-reflection" aria-hidden="true"></div>
+                <header class="letter-header">
+                    <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+                    <span id="letterTitle">♥ love_note.txt</span>
+                    <button id="closeLetter" type="button" aria-label="Close love note">×</button>
+                </header>
+                <div class="letter-toolbar" aria-hidden="true"><span>File</span><span>Edit</span><span>Always yours</span></div>
+                <div class="letter-paper">
+                    <pre id="typedLetter" aria-live="polite"></pre><span class="typing-caret" aria-hidden="true"></span>
+                </div>
+                <footer class="letter-status"><span>made with love</span><span>UTF-♥</span></footer>
+            </div>
+        </div>
+
+        <div class="custom-cursor" id="customCursor" aria-hidden="true"><span>♥</span></div>
+        <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+        <div id="burstLayer" class="burst-layer" aria-hidden="true"></div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
